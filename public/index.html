@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17694f">
+  <meta name="description" content="Organize suas tarefas com uma conta pessoal e sincronização em tempo real.">
+  <title>Em Dia — Minhas tarefas</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><span class="brand-icon" aria-hidden="true">✓</span> em dia<span class="brand-dot">.</span></a>
+    <span class="top-caption">Sistema de tarefas</span>
+    <button id="logout" class="secondary" hidden>Sair da conta</button>
+  </header>
+  <main>
+    <p id="message" class="notice" role="status" aria-live="polite">Carregando aplicação… Se esta mensagem permanecer, abra pelo servidor local indicado no README e confira sua conexão.</p>
+    <noscript><p class="notice">Ative o JavaScript para usar esta aplicação.</p></noscript>
+    <section id="setup" class="setup card" hidden>
+      <span class="eyebrow">PRIMEIRO ACESSO</span>
+      <h2>Falta só conectar o Firebase.</h2>
+      <p>O projeto está preparado. Siga o README para criar sua conta, ativar os serviços e preencher <code>public/firebase-config.js</code>.</p>
+      <p>Depois, atualize esta página para cadastrar seu usuário.</p>
+    </section>
+    <section id="auth-view" class="auth-layout">
+      <div class="intro">
+        <span class="eyebrow">ORGANIZE SUA ROTINA</span>
+        <h1>Suas tarefas,<br>em um só lugar<span>.</span></h1>
+        <p>Anote o que precisa fazer, marque o que já terminou e acompanhe suas tarefas de onde estiver.</p>
+        <img class="welcome-image" src="images/tarefas.svg" width="480" height="300" alt="Ilustração de uma lista de tarefas com duas atividades concluídas, um lápis e uma pequena planta.">
+        <div class="intro-foot">Simples de usar. Fácil de manter em dia.</div>
+      </div>
+      <div class="card auth-card">
+        <span class="eyebrow">BEM-VINDO</span>
+        <h2 id="auth-heading">Vamos começar?</h2>
+        <p id="auth-description" class="muted">Entre com seu e-mail e senha para acessar suas tarefas.</p>
+        <div class="switcher" aria-label="Acesso à conta">
+          <button type="button" id="login-tab" aria-pressed="true">Entrar</button>
+          <button type="button" id="signup-tab" aria-pressed="false">Criar conta</button>
+        </div>
+        <form id="auth-form">
+          <fieldset id="auth-fields" disabled>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required maxlength="254">
+            <label for="password">Senha</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Sua senha">
+            <div id="confirm-group" hidden>
+              <label for="confirm-password">Confirme a senha</label>
+              <input id="confirm-password" type="password" autocomplete="new-password" placeholder="Repita sua senha" disabled>
+              <p class="help">Use pelo menos 6 caracteres ou a política definida no seu projeto.</p>
+            </div>
+            <button class="primary full" id="auth-submit" type="submit">Entrar na minha conta <span aria-hidden="true">→</span></button>
+          </fieldset>
+        </form>
+        <p class="auth-note">As tarefas ficam vinculadas à sua conta.</p>
+      </div>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="dashboard-heading"><div><span class="eyebrow">SEU ESPAÇO PARA ORGANIZAR</span><h1>Minhas tarefas<span>.</span></h1><p id="account" class="muted"></p></div><span id="sync-status" class="sync" role="status">Conectando…</span></div>
+      <div class="stats"><div class="card"><span>Total de tarefas</span><strong id="total">0</strong></div><div class="card"><span>Para fazer</span><strong id="pending">0</strong></div><div class="card accent-card"><span>Concluídas</span><strong id="completed">0</strong></div></div>
+      <div class="workspace">
+        <section class="card editor"><span class="eyebrow">UM NOVO PASSO</span><h2 id="editor-heading">Adicionar tarefa</h2><form id="task-form"><fieldset id="task-fields" disabled>
+          <label for="task-title">O que você precisa fazer?</label><input id="task-title" maxlength="120" required placeholder="Ex.: Revisar o trabalho de hoje">
+          <label for="task-description">Detalhes <span class="optional">(opcional)</span></label><textarea id="task-description" rows="4" maxlength="1000" placeholder="Anote o que não pode esquecer…"></textarea>
+          <label for="task-priority">Prioridade</label><select id="task-priority"><option value="normal">Normal</option><option value="alta">Alta</option><option value="baixa">Baixa</option></select>
+          <button id="save-task" class="primary full" type="submit">Adicionar tarefa +</button><button id="cancel-edit" class="secondary full" type="button" hidden>Cancelar edição</button>
+        </fieldset></form></section>
+        <section class="card task-panel" aria-label="Lista de tarefas">
+          <div class="list-heading"><h2>Seu planejamento</h2><span id="visible-count" class="muted">0 tarefas</span></div>
+          <div class="filters" aria-label="Filtrar tarefas"><button type="button" data-filter="all" aria-pressed="true">Todas</button><button type="button" data-filter="pending" aria-pressed="false">Pendentes</button><button type="button" data-filter="done" aria-pressed="false">Concluídas</button></div>
+          <label class="sr-only" for="search">Buscar tarefas</label><input id="search" type="search" placeholder="Buscar nas suas tarefas…" maxlength="120">
+          <p id="empty" class="empty">Carregando suas tarefas…</p><ul id="task-list" class="task-list"></ul>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer>em dia. <span>Suas tarefas organizadas, um dia de cada vez.</span></footer>
+</body>
+</html>
